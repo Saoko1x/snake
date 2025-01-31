@@ -50,12 +50,11 @@ def game_loop():
     snake_list = []
     snake_length = 1
 
-    # Food position
-    food_x = round((width - block_size) / block_size / 2) * block_size
-    food_y = round((height - block_size) / block_size / 2) * block_size
+    # Food position (randomized)
+    food_x = round(random.randrange(0, width - block_size) / block_size) * block_size
+    food_y = round(random.randrange(0, height - block_size) / block_size) * block_size
 
     while not game_over:
-
         while game_close:
             window.fill(black)
             display_score(snake_length - 1)
@@ -112,14 +111,14 @@ def game_loop():
 
         # Check if the snake eats the food
         if x == food_x and y == food_y:
-            food_x = round((width - block_size) / block_size / 2) * block_size
-            food_y = round((height - block_size) / block_size / 2) * block_size
+            # Generate new random food position
+            food_x = round(random.randrange(0, width - block_size) / block_size) * block_size
+            food_y = round(random.randrange(0, height - block_size) / block_size) * block_size
             snake_length += 1
 
         clock.tick(15)
 
     pygame.quit()
     quit()
-
 # Start the game
 game_loop()
