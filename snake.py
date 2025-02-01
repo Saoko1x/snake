@@ -23,8 +23,8 @@ clock = pygame.time.Clock()
 block_size = 20
 
 # Font for displaying the score and game over message
-font_style = pygame.font.SysFont(None, 50)
-score_font = pygame.font.SysFont(None, 35)
+font_style = pygame.font.SysFont(None, int(width / 15))  # Proportional font size
+score_font = pygame.font.SysFont(None, int(width / 20))  # Proportional font size for score
 
 def display_score(score):
     value = score_font.render("Score: " + str(score), True, white)
@@ -36,7 +36,9 @@ def draw_snake(block_size, snake_list):
 
 def message(msg, color):
     mesg = font_style.render(msg, True, color)
-    window.blit(mesg, [width / 6, height / 3])
+    # Center the message on the screen
+    mesg_rect = mesg.get_rect(center=(width / 2, height / 2))
+    window.blit(mesg, mesg_rect)
 
 def game_loop():
     game_over = False
