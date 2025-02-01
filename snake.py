@@ -1,7 +1,6 @@
 import pygame
-import time
 import random
-
+import time
 
 # Initialize pygame
 pygame.init()
@@ -23,16 +22,21 @@ clock = pygame.time.Clock()
 # Snake block size
 block_size = 20
 
-# Font for displaying the score
+# Font for displaying the score and game over message
 font_style = pygame.font.SysFont(None, 50)
+score_font = pygame.font.SysFont(None, 35)
 
 def display_score(score):
-    value = font_style.render("Your Score: " + str(score), True, white)
-    window.blit(value, [0, 0])
+    value = score_font.render("Score: " + str(score), True, white)
+    window.blit(value, [10, 10])
 
 def draw_snake(block_size, snake_list):
     for block in snake_list:
         pygame.draw.rect(window, green, [block[0], block[1], block_size, block_size])
+
+def message(msg, color):
+    mesg = font_style.render(msg, True, color)
+    window.blit(mesg, [width / 6, height / 3])
 
 def game_loop():
     game_over = False
@@ -55,19 +59,20 @@ def game_loop():
     food_y = round(random.randrange(0, height - block_size) / block_size) * block_size
 
     while not game_over:
+
         while game_close:
             window.fill(black)
+            message("Game Over! Press any key to play again", red)
             display_score(snake_length - 1)
             pygame.display.update()
 
-            # Ask the player to play again or quit
+            # Wait for the player to press a key to restart or quit
             for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    game_over = True
+                    game_close = False
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_q:
-                        game_over = True
-                        game_close = False
-                    if event.key == pygame.K_c:
-                        game_loop()
+                    game_loop()  # Restart the game
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -120,5 +125,6 @@ def game_loop():
 
     pygame.quit()
     quit()
+
 # Start the game
 game_loop()
